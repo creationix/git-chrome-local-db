@@ -1,16 +1,5 @@
 /*global chrome*/
 
-function makeAsync(fn, callback) {
-  if (!callback) return makeAsync.bind(this, fn);
-  setImmediate(function () {
-    var result;
-    try { result = fn(); }
-    catch (err) { return callback(err); }
-    if (result === undefined) return callback();
-    return callback(null, result);
-  });
-}
-
 var local = chrome.storage.local;
 var deflate, inflate;
 module.exports = function (platform) {
@@ -50,9 +39,7 @@ function localDb(prefix) {
         return inflate(deflated, callback);
       });
     }
-    setImmediate(function () {
-      callback(null, refs[key]);
-    });
+    callback(null, refs[key]);
   }
 
   function set(key, value, callback) {
@@ -104,16 +91,15 @@ function localDb(prefix) {
   }
 
   function keys(prefix, callback) {
-    return makeAsync(function () {
-      var list = Object.keys(refs);
-      if (!prefix) return list;
-      var length = prefix.length;
-      return list.filter(function (key) {
-        return key.substr(0, length) === prefix;
-      }).map(function (key) {
-        return key.substr(length);
-      });
-    }, callback);
+    if (!callback) return keys.bind(this, prefix);
+    var list = Object.keys(refs);
+    if (!prefix) return callback(null, list);
+    var length = prefix.length;
+    return callback(null, list.filter(function (key) {
+      return key.substr(0, length) === prefix;
+    }).map(function (key) {
+      return key.substr(length);
+    }));
   }
 
   function init(callback) {
