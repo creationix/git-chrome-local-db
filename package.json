@@ -1,0 +1,23 @@
+{
+  "name": "git-chrome-local-db",
+  "version": "0.1.0",
+  "description": "A git db implementation using chrome.storage.local",
+  "main": "localdb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/creationix/git-chrome-local-db.git"
+  },
+  "keywords": [
+    "js-git",
+    "db",
+    "chrome"
+  ],
+  "author": "Tim Caswell <tim@creationix.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/creationix/git-chrome-local-db/issues"
+  }
+}
