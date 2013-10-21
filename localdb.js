@@ -35,6 +35,11 @@ function localDb(prefix) {
         if (chrome.runtime.lastError) {
           return callback(new Error(chrome.runtime.lastError.message));
         }
+        if (!(key in items)) {
+          var err = new Error("ENOENT: " + key + " not in database.");
+          err.code = "ENOENT";
+          return callback(err);
+        }
         var deflated = fromString(items[key]);
         return inflate(deflated, callback);
       });
